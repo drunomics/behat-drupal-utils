@@ -6,7 +6,7 @@
  */
 
 
-namespace Drunomics\BehatDrupalSmoke\Context;
+namespace drunomics\BehatDrupalSmoke\Context;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\DrupalExtension\Context\DrupalContext;
