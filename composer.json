@@ -1,10 +1,10 @@
 {
   "name": "drunomics/behat-drupal-smoke",
-  "description": "behat-watchdog integration",
+  "description": "behat drupal smoke tests",
   "version": "0.1.0",
   "autoload": {
     "psr-0": {
-      "BehatDrupalSmoke": "src"
+      "Drunomics\\BehatDrupalSmoke\\": "src"
     }
   }
 }

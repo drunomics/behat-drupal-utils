@@ -5,9 +5,13 @@
  * The WatchdogCatcher behat context.
  */
 
+
+namespace Drunomics\BehatDrupalSmoke\Context;
+
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\Core\Logger\RfcLogLevel;
+
 /**
  * Defines application features from the specific context.
  */
