@@ -12,10 +12,22 @@
 
 The modules provides functionality for running smoke and login tests for drupal.
 
-### Watchdog Catcher Context
+### Install 
+
+* Feel free to copy the example behat feature. 
+* Add the provided js file to your sites js. The listener is required to catch js errors.
+* Also add the DrupalSmokeContext to your behat.yml.
+
+
+### Drupal Smoke Context
     
-You can extend the WatchdogCatcher Behat Context to add automatic watchdog error catching.
-All watchdog entries excluding `Notice`, `Info` and `Debug` will be detected. 
+All watchdog entries excluding `Notice`, `Info` and `Debug` will be detected.
+
+There are also some methods available in the Context:
+
+ * iShouldBeRedirectedTo
+ * iShouldSeeElementWithTheCssStylePropertyMatching
+ * iShouldNotSeeAnyJavascriptErrorsInTheConsole
 
 ### Example behat feature
 

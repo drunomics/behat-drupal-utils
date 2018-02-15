@@ -28,7 +28,7 @@ Feature: Drupal basically works.
   @javascript
   Scenario: Frontend assets are loaded.
     Given I am on "/"
-    Then I should see Element "body" with the Css Style Property "background-color" matching "rgb(255, 255, 255)"
+    Then I should see Element "h2" with the Css Style Property "font-size" matching "32px"
 
   @javascript
   Scenario: No javascript errors are generated.
