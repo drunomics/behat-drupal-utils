@@ -14,5 +14,13 @@
     }
   ],
   "keywords": ["drupal", "behat", "smoke", "smoketest", "logintest"],
-  "homepage": "https://github.com/drunomics/behat-drupal-smoke"
+  "homepage": "https://github.com/drunomics/behat-drupal-smoke",
+  "extra": {
+    "patches": {
+      "drupal/core": {
+        "#2968031 Race condition with locale javascript translation generation": "https://www.drupal.org/files/issues/2018-04-30/d8_js_optimizer.patch"
+      }
+    }
+  }
 }
+
