@@ -20,6 +20,24 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class DrupalSmokeContext extends RawDrupalContext {
 
   /**
+   * @Then I should be logged in.
+   */
+  public function iShouldbeLoggedIn() {
+    if (!$this->loggedIn()) {
+      throw new ExpectationException("No user is logged in.", $this->getSession());
+    }
+  }
+
+  /**
+   * @Then I should not be logged in.
+   */
+  public function iShouldNotbeLoggedIn() {
+    if ($this->loggedIn()) {
+      throw new ExpectationException("A user is logged in, but should not.", $this->getSession());
+    }
+   }
+
+  /**
    * @Then I should be redirected to :url.
    */
   public function iShouldBeRedirectedTo($path) {
