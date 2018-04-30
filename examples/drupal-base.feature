@@ -7,28 +7,31 @@ Feature: Drupal basically works.
 
   Scenario: Drupal generates a page
     Given I am on "/"
-    Then the response should contain "Drupal 8 (Thunder | http://www.thunder.org)"
+    Then the response should contain "Drupal 8 ("
 
   Scenario: Drupal generates a 404 response
     Given I am an anonymous user
     And I am on "some-not-existing-page"
-    Then I should see "404"
+    Then the response status code should be 404
 
   Scenario: Drupal generates a 403 response
     Given I am an anonymous user
     And I am on "/admin"
-    Then I should see "403"
+    Then the response status code should be 403
 
   Scenario: I can log in and logout.
+    Given I am an anonymous user
+    Then I should not be logged in.
+
     Given I am logged in as a user with the "authenticated user" role
-    Then I should see the link "Abmelden"
-    When I click "Abmelden"
-    Then I should not see the link "Abmelden"
+    Then I should be logged in.
+    When I go to "/user/logout"
+    Then I should not be logged in.
 
   @javascript
   Scenario: Frontend assets are loaded.
     Given I am on "/"
-    Then I should see Element "h2" with the Css Style Property "font-size" matching "32px"
+    Then I should see Element "h1" with the Css Style Property "font-size" matching "28px"
 
   @javascript
   Scenario: No javascript errors are generated.
