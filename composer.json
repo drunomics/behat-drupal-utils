@@ -1,7 +1,6 @@
 {
-  "name": "drunomics/behat-drupal-smoke",
-  "description": "Provides functionality for running smoke and login tests for drupal.",
-  "version": "1.0.2",
+  "name": "drunomics/behat-drupal-utils",
+  "description": "Provides utilities for running smoke tests and various useful behat contexts.",
   "autoload": {
     "psr-4": {
       "drunomics\\BehatDrupalSmoke\\": "src"
