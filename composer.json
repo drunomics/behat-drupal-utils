@@ -1,9 +1,12 @@
 {
   "name": "drunomics/behat-drupal-utils",
   "description": "Provides utilities for running smoke tests and various useful behat contexts.",
+  "replace": {
+    "drunomics/behat-drupal-smoke":"1.*"
+  },
   "autoload": {
     "psr-4": {
-      "drunomics\\BehatDrupalSmoke\\": "src"
+      "drunomics\\BehatDrupalUtils\\": "src"
     }
   },
   "license": "GPL-2.0+",

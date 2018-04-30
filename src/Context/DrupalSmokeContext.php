@@ -2,13 +2,11 @@
 
 /**
  * @file
- * The WatchdogCatcher behat context.
+ * The DrupalSmokeContext behat context.
  */
 
+namespace drunomics\BehatDrupalUtils\Context;
 
-namespace drunomics\BehatDrupalSmoke\Context;
-
-use Behat\MinkExtension\Context\MinkContext;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Logger\RfcLogLevel;
 use Behat\Mink\Exception\ExpectationException;
