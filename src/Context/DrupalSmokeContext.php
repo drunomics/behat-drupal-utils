@@ -18,6 +18,13 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class DrupalSmokeContext extends RawDrupalContext {
 
   /**
+   * @Then I wait for the page to be loaded
+   */
+  public function iWaitForThePageToBeLoaded() {
+    $this->getSession()->wait(30000, "document.readyState === 'complete'");
+  }
+
+  /**
    * @Then I should be logged in.
    */
   public function iShouldbeLoggedIn() {
