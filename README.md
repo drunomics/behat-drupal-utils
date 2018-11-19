@@ -49,5 +49,6 @@ You can find a sample behat feature for smoke testing in the examples directory.
  
   Wolfgang Ziegler // fago
   Maximilian Götz-Mikus // maximilianmikus
+  Jeremy Chinquist // jjchinquist
   drunomics GmbH, hello@drunomics.com
   
