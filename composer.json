@@ -17,7 +17,7 @@
     }
   ],
   "keywords": ["drupal", "behat", "smoke", "smoketest", "logintest"],
-  "homepage": "https://github.com/drunomics/behat-drupal-smoke",
+  "homepage": "https://github.com/drunomics/behat-drupal-utils",
   "extra": {
     "patches": {
       "drupal/core": {
