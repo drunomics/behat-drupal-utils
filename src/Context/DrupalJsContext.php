@@ -7,8 +7,6 @@
 
 namespace drunomics\BehatDrupalUtils\Context;
 
-use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Core\Logger\RfcLogLevel;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
