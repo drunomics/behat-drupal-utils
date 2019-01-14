@@ -100,8 +100,6 @@ class EntityBrowserContext extends RawDrupalContext {
       ->wait(5000, "jQuery(\"$entity_browser_selector\").length == 0");
   }
 
-
-
   /**
    * @Then :element_selector in entity browser :entity_browser should have the class :class_name
    */
