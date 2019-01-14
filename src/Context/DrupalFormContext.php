@@ -13,9 +13,9 @@ namespace drunomics\BehatDrupalUtils\Context;
 class DrupalFormContext extends DrupalFormContextBase {
 
   /**
-   * @When I click :tab in user menu
+   * @When I click :tab in local tasks
    */
-  public function iClickInUserMenu($tab) {
+  public function iClickInLokalTasks($tab) {
     $xpath = "//div[contains(@id, 'local-tasks')]//a[contains(text(), '$tab')]";
     $this->getSession()->getDriver()
       ->click($xpath);

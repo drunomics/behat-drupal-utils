@@ -71,7 +71,9 @@ class EntityBrowserContext extends RawDrupalContext {
    */
   public function iWaitForInEntityBrowser($element_selector, $entity_browser) {
     $entity_browser_selector = $this->getEntityBrowserSelector($entity_browser);
-    $this->getSession()->getDriver()->wait(5000, "jQuery(\"$entity_browser_selector\").contents().find(\"$element_selector\").length > 0");
+    $this->getSession()
+      ->getDriver()
+      ->wait(5000, "jQuery(\"$entity_browser_selector\").contents().find(\"$element_selector\").length > 0");
   }
 
   /**
@@ -93,7 +95,9 @@ class EntityBrowserContext extends RawDrupalContext {
    */
   public function iWaitForEntityBrowserToClose($entity_browser) {
     $entity_browser_selector = $this->getEntityBrowserSelector($entity_browser);
-    $this->getSession()->getDriver()->wait(5000, "jQuery(\"$entity_browser_selector\").length == 0");
+    $this->getSession()
+      ->getDriver()
+      ->wait(5000, "jQuery(\"$entity_browser_selector\").length == 0");
   }
 
 
