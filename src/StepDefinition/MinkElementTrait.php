@@ -34,4 +34,54 @@ trait MinkElementTrait  {
     }
   }
 
+  /**
+   * Waits for x milliseconds.
+   *
+   * @Given I wait for :milliseconds ms
+   */
+  public function waitForSomeTime($milliseconds) {
+    sleep($milliseconds / 1000);
+  }
+
+  /**
+   * Focus some element.
+   *
+   * @When I focus the element :locator
+   * @When I focus the field :locator
+   */
+  public function focusElement($locator) {
+    $element = $this->getSession()->getPage()->find('css', $locator);
+    if (!isset($element)) {
+      throw new ElementNotFoundException($this->getDriver(), NULL, 'css', $locator);
+    }
+    $element->focus();
+  }
+
+  /**
+   * Click some element.
+   *
+   * @When I click on the element :locator
+   * @When I click in the field :locator
+   */
+  public function clickElement($locator) {
+    $element = $this->getSession()->getPage()->find('css', $locator);
+    if (!isset($element)) {
+      throw new ElementNotFoundException($this->getDriver(), NULL, 'css', $locator);
+    }
+    $element->click();
+  }
+
+  /**
+   * Click some link contained in some element.
+   *
+   * @When I click on :link below the element :locator
+   */
+  public function clickLinkBelowElement($link, $locator) {
+    $element = $this->getSession()->getPage()->find('css', $locator);
+    if (!isset($element)) {
+      throw new ElementNotFoundException($this->getDriver(), NULL, 'css', $locator);
+    }
+    $element->clickLink($link);
+  }
+
 }

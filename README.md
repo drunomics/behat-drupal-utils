@@ -20,6 +20,7 @@ The package provides:
   Depending on your behat configuration, the suiting context classes should be added in. It automatically includes
   all compatible step definitions.
 * Optional additional context classes that add automatic checks or cleanup routines like:
+  - DrupalCleanTestContentApiContext
   - DrupalErrorCheckApiContext
 
 ## Smoke tests
