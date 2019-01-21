@@ -13,9 +13,12 @@ trait JavascriptUtilStepsTrait {
   /**
    * Gets the mink session.
    *
+   * @param string $name
+   *   (optional) The name of the session.
+   *
    * @return \Behat\Mink\Session
    */
-  abstract protected function getSession();
+  abstract protected function getSession($name = NULL);
 
   /**
    * @When I trigger the :eventName event on the :selector element

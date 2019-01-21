@@ -15,9 +15,12 @@ trait DrupalDrushMiscTrait  {
   /**
    * Gets the mink session.
    *
+   * @param string $name
+   *   (optional) The name of the session.
+   *
    * @return \Behat\Mink\Session
    */
-  abstract protected function getSession();
+  abstract protected function getSession($name = NULL);
 
   /**
    * Determine if the a user is already logged in.

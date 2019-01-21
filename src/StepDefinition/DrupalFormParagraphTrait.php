@@ -14,9 +14,12 @@ trait DrupalFormParagraphTrait {
   /**
    * Gets the mink session.
    *
+   * @param string $name
+   *   (optional) The name of the session.
+   *
    * @return \Behat\Mink\Session
    */
-  abstract protected function getSession();
+  abstract protected function getSession($name = NULL);
 
   /**
    * Returns paragraph form of specified slot ("delta").
@@ -59,8 +62,7 @@ trait DrupalFormParagraphTrait {
    * Requires javascript.
    */
   public function iFillInTheWysiwygWithInParagraphNumber($locator, $value, $slot) {
-    $this->getSession()->getDriver()
-    $paragraph = $this->getParagraph($slot);
+    $paragraph = $this->getParagraphForm($slot);
     $this->setDataInWysiwyg($locator, $value, $paragraph);
   }
 

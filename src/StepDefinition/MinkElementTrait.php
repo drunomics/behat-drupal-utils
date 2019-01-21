@@ -22,9 +22,12 @@ trait MinkElementTrait  {
   /**
    * Gets the mink session.
    *
+   * @param string $name
+   *   (optional) The name of the session.
+   *
    * @return \Behat\Mink\Session
    */
-  abstract protected function getSession();
+  abstract protected function getSession($name = NULL);
 
   /**
    * @Then /^I should see Element "([^"]*)" with the Css Style Property "([^"]*)" matching "([^"]*)"$/
