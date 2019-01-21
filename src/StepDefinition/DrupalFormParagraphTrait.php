@@ -32,7 +32,7 @@ trait DrupalFormParagraphTrait {
    *   Slot number of paragraph.
    */
   public function iFillInWithInParagraphNumber($field, $input, $slot) {
-    $this->getParagraph($slot)->fillField($field, $input);
+    $this->getParagraphForm($slot)->fillField($field, $input);
   }
 
   /**
