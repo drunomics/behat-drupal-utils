@@ -64,4 +64,13 @@ trait DrupalDrushMiscTrait  {
     }
   }
 
+  /**
+   * @Then I click :tab in local tasks
+   */
+  public function iClickInLokalTasks($tab) {
+    $xpath = "//div[contains(@id, 'local-tasks')]//a[contains(text(), '$tab')]";
+    $this->getSession()->getDriver()
+      ->click($xpath);
+  }
+
 }

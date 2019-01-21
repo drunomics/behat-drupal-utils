@@ -22,6 +22,27 @@ trait DrupalFormParagraphTrait {
   abstract protected function getSession($name = NULL);
 
   /**
+   * @Then I fill in :field with :input in paragraph number :slot
+   *
+   * @param string $field
+   *   Field's id, name or label.
+   * @param mixed $input
+   *   Value of field.
+   * @param int $slot
+   *   Slot number of paragraph.
+   */
+  public function iFillInWithInParagraphNumber($field, $input, $slot) {
+    $this->getParagraph($slot)->fillField($field, $input);
+  }
+
+  /**
+   * @Given I press :button in paragraph number :slot
+   */
+  public function iPressInParagraphNumber($button, $slot) {
+    $this->getParagraphForm($slot)->pressButton($button);
+  }
+
+  /**
    * Returns paragraph form of specified slot ("delta").
    *
    * @param int $slot
