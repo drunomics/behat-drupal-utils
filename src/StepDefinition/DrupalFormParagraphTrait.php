@@ -1,20 +1,44 @@
 <?php
 
-/**
- * @file
- * The DrupalFormContext behat context.
- */
+namespace drunomics\BehatDrupalUtils\StepDefinition;
 
-namespace drunomics\BehatDrupalUtils\Context;
-
-use Behat\Mink\Exception\ExpectationException;
+use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
- * Defines application features from the specific context.
+ * Steps around paragraph widgets in Drupal forms.
  *
- * Requires JS.
+ * Partly requires JS.
  */
-class DrupalFormJSContext extends DrupalFormContextBase {
+trait DrupalFormParagraphTrait {
+
+  /**
+   * Gets the mink session.
+   *
+   * @return \Behat\Mink\Session
+   */
+  abstract protected function getSession();
+
+  /**
+   * Returns paragraph form of specified slot ("delta").
+   *
+   * @param int $slot
+   *   Slot number of paragraph.
+   *
+   * @return \Behat\Mink\Element\NodeElement
+   */
+  protected function getParagraphForm($slot) {
+    $xpath = "//table[contains(@class, 'field-multiple-table--paragraphs')]/tbody/tr[not(contains(@class, 'paragraphs-features__add-in-between__row'))][$slot]";
+    return $this->getParagraphFormFieldWrapper()
+      ->find('xpath', $xpath);
+  }
+
+  /**
+   * @return \Behat\Mink\Element\NodeElement
+   */
+  protected function getParagraphFormFieldWrapper() {
+    $xpath = "//div[contains(@class, 'field--widget-paragraphs')]";
+    return $this->getSession()->getDriver()->find($xpath)[0];
+  }
 
   /**
    * @Then I add a paragraph :paragraph_type_label at slot number :slot
@@ -31,8 +55,11 @@ class DrupalFormJSContext extends DrupalFormContextBase {
 
   /**
    * @Then I fill in the Wysiwyg :locator with :value in paragraph number :slot
+   * 
+   * Requires javascript.
    */
   public function iFillInTheWysiwygWithInParagraphNumber($locator, $value, $slot) {
+    $this->getSession()->getDriver()
     $paragraph = $this->getParagraph($slot);
     $this->setDataInWysiwyg($locator, $value, $paragraph);
   }
@@ -46,6 +73,8 @@ class DrupalFormJSContext extends DrupalFormContextBase {
    *   The value.
    * @param \Behat\Mink\Element\NodeElement $parent
    *   The field's parent.
+   *
+   * Requires javascript.
    */
   protected function setDataInWysiwyg($locator, $value, $parent = NULL) {
     if (empty($parent)) {
@@ -70,6 +99,8 @@ class DrupalFormJSContext extends DrupalFormContextBase {
 
   /**
    * @Then I wait for :css_selector in paragraph number :slot
+   *
+   * Requires javascript.
    */
   public function iWaitForInParagraphNumber($css_selector, $slot) {
     $css_selector = ".field--widget-paragraphs tr:nth-child($slot) $css_selector";

@@ -1,19 +1,21 @@
 <?php
 
-/**
- * @file
- * The DrupalJsContext behat context.
- */
-
-namespace drunomics\BehatDrupalUtils\Context;
+namespace drunomics\BehatDrupalUtils\StepDefinition;
 
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
- * Defines application features from the specific context.
+ * Provides steps for operating with the javascript on the page.
  */
-class DrupalJsContext extends RawDrupalContext {
+trait JavascriptUtilStepsTrait {
+
+  /**
+   * Gets the mink session.
+   *
+   * @return \Behat\Mink\Session
+   */
+  abstract protected function getSession();
 
   /**
    * @When I trigger the :eventName event on the :selector element
@@ -73,7 +75,6 @@ JS;
 
     $this->getSession()
       ->evaluateScript($event);
-
   }
 
   /**

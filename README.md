@@ -7,49 +7,39 @@
 - Drupal Extension
 - Behat Driver with Javascript enabled (e.g. `dmore/behat-chrome-extension`)
 
+The javascript step definitins are all tested with `dmore/behat-chrome-extension`.
 
 ## Overview:
 
 The package provides:
 
-* Various useful behat contexts
-* Helpers for running behat smoke tests
+* Various useful behat contexts, organized the following context classes:
+  - DrupalUtilsAPIContext
+  - DrupalUtilsDrushContext
+  - MinkUtilsContext
+  Depending on your behat configuration, the suiting context classes should be added in. It automatically includes
+  all compatible step definitions.
+* Optional additional context classes that add automatic checks or cleanup routines like:
+  - DrupalErrorCheckApiContext
 
 ## Smoke tests
 
-The package ensures a simple Drupal login/logout works and a page of your site can be opened, while frontend assets
-are loaded and no javascript or watchdog errors are triggered.
+The tests below ./examples/ ensure a simple Drupal login/logout works and a page of your site can be opened, while
+frontend assets are loaded and no javascript or watchdog errors are triggered.
 
 ### Setup
 
 * Add this package to your project's dev dependencies.
-* Feel free to copy the example behat feature.
+* Add one of the three context to your behat.yml, optionall also add optional contexts.
+* Feel free to copy the example behat features.
 * Add the provided js file to your sites js. The listener is required to catch js errors.
-* Also add the DrupalSmokeContext to your behat.yml.
-
 
 ### Detecting watchdog errors
-    
-All watchdog entries excluding `Notice`, `Info` and `Debug` will be detected and trigger PHP errors in the behat
-PHP runner automatically.
 
-### Helpers
-
-There are also some methods available in the smoke context:
-
- * iShouldBeRedirectedTo
- * iShouldSeeElementWithTheCssStylePropertyMatching
- * iShouldNotSeeAnyJavascriptErrorsInTheConsole
-
-### Example behat feature
-
-You can find a sample behat feature for smoke testing in the examples directory.
+When DrupalErrorCheckApiContext is added, all watchdog entries excluding `Notice`, `Info` and `Debug` will be detected
+and trigger PHP errors in the behat PHP runner automatically.
 
 ## Credits
  
-  Wolfgang Ziegler // fago  
-  Maximilian Götz-Mikus // maximilianmikus  
-  Jeremy Chinquist // jjchinquist  
-  Arthur Lorenz // arthur_lorenz  
-  drunomics GmbH, hello@drunomics.com  
-  
+  developed by drunomics GmbH, hello@drunomics.com
+  Please refer to the commit log individual contributors.  

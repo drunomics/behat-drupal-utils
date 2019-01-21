@@ -1,15 +1,24 @@
 <?php
 
-namespace drunomics\BehatDrupalUtils\Context;
+namespace drunomics\BehatDrupalUtils\StepDefinition;
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
- * Defines application features from the specific context.
+ * Steps for operationg with entity browser widgets.
+ *
+ * Requres javascript.
  */
-class EntityBrowserContext extends RawDrupalContext {
+trait DrupalFormJsEntityBrowserTrait {
+
+  /**
+   * Gets the mink session.
+   *
+   * @return \Behat\Mink\Session
+   */
+  abstract protected function getSession();
 
   /**
    * Function to build jQuery selector for entity browser item.

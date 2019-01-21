@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * The DrupalSmokeContext behat context.
- */
-
 namespace drunomics\BehatDrupalUtils\Context;
 
 use Drupal\Component\Render\FormattableMarkup;
@@ -13,53 +8,11 @@ use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
- * Defines application features from the specific context.
+ * Ensures there are no erros in watchdog.
+ *
+ * It also provides an optional step for checking for js console warnings.
  */
-class DrupalSmokeContext extends RawDrupalContext {
-
-  /**
-   * @Then I wait for the page to be loaded
-   */
-  public function iWaitForThePageToBeLoaded() {
-    $this->getSession()->wait(30000, "document.readyState === 'complete'");
-  }
-
-  /**
-   * @Then I should be logged in.
-   */
-  public function iShouldbeLoggedIn() {
-    if (!$this->loggedIn()) {
-      throw new ExpectationException("No user is logged in.", $this->getSession());
-    }
-  }
-
-  /**
-   * @Then I should not be logged in.
-   */
-  public function iShouldNotbeLoggedIn() {
-    if ($this->loggedIn()) {
-      throw new ExpectationException("A user is logged in, but should not.", $this->getSession());
-    }
-   }
-
-  /**
-   * @Then I should be redirected to :url.
-   */
-  public function iShouldBeRedirectedTo($path) {
-    if ($this->getSession()->getCurrentUrl() != $this->locatePath($path)) {
-      throw new ExpectationException("URL does not match expected path.", $this->getSession());
-    }
-  }
-
-  /**
-   * @Then /^I should see Element "([^"]*)" with the Css Style Property "([^"]*)" matching "([^"]*)"$/
-   */
-  public function iShouldSeeElementWithTheCssStylePropertyMatching($tag, $property, $value) {
-    $actual_value = $this->getSession()->evaluateScript("return window.getComputedStyle(document.querySelector('$tag'))['$property'];");
-    if ($actual_value !== $value) {
-      throw new ExpectationException("CSS Style property $property does not match expected value. Actual value: $actual_value / Expected: $value", $this->getSession());
-    }
-  }
+class DrupalErrorCheckApiContext extends RawDrupalContext {
 
   /**
    * @Then /^I should not see any javascript errors in the console$/
