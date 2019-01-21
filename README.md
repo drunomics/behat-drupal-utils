@@ -14,7 +14,7 @@ The javascript step definitins are all tested with `dmore/behat-chrome-extension
 The package provides:
 
 * Various useful behat contexts, organized the following context classes:
-  - DrupalUtilsAPIContext
+  - DrupalUtilsApiContext
   - DrupalUtilsDrushContext
   - MinkUtilsContext
   Depending on your behat configuration, the suiting context classes should be added in. It automatically includes
