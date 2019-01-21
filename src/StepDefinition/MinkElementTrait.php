@@ -89,4 +89,17 @@ trait MinkElementTrait  {
     $element->clickLink($link);
   }
 
+  /**
+   * Press some button contained in some element.
+   *
+   * @When I press on :button below the element :locator
+   */
+  public function pressButtonBelowElement($button, $locator) {
+    $element = $this->getSession()->getPage()->find('css', $locator);
+    if (!isset($element)) {
+      throw new ElementNotFoundException($this->getDriver(), NULL, 'css', $locator);
+    }
+    $element->pressButton($button);
+  }
+
 }
