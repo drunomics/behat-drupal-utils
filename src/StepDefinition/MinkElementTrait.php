@@ -14,6 +14,8 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
  * Provides steps for operating with mink elements.
+ *
+ * Note that CSS selectors also support :contains; e.g. "div:contains("foo")".
  */
 trait MinkElementTrait  {
 
