@@ -7,7 +7,7 @@
 - Drupal Extension
 - Behat Driver with Javascript enabled (e.g. `dmore/behat-chrome-extension`)
 
-The javascript step definitins are all tested with `dmore/behat-chrome-extension`.
+The javascript step definitions are all tested with `dmore/behat-chrome-extension`.
 
 ## Overview:
 
