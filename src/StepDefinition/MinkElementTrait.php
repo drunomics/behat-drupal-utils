@@ -7,6 +7,8 @@
 
 namespace drunomics\BehatDrupalUtils\StepDefinition;
 
+use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Mink\Exception\ElementNotFoundException;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Logger\RfcLogLevel;
 use Behat\Mink\Exception\ExpectationException;
@@ -66,25 +68,48 @@ trait MinkElementTrait  {
    * Click some element.
    *
    * @When I click on the element :locator
+   * @When I click on the element with :selector selector :locator
    * @When I click in the field :locator
+   * @When I click in the field with :selector selector :locator
    */
-  public function clickElement($locator) {
-    $element = $this->getSession()->getPage()->find('css', $locator);
+  public function clickElement($locator, $selector = 'css') {
+    $element = $this->getSession()->getPage()->find($selector, $locator);
     if (!isset($element)) {
-      throw new ElementNotFoundException($this->getDriver(), NULL, 'css', $locator);
+      throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
     }
     $element->click();
+  }
+
+  /**
+   * Follow some link contained in some element.
+   *
+   * It follows the link by reading the link target and navigating to the given
+   * path instead of clicking on the element.
+   *
+   * @When I follow the :link link below the element :locator
+   * @When I follow the :link link below the element with :selector selector :locator
+   */
+  public function followLinkBelowElement($link, $locator, $selector = 'css') {
+
+    $element = $this->getSession()->getPage()->find($selector, $locator);
+    if (!isset($element)) {
+      throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
+    }
+    $path = $element->findLink('Edit')->getAttribute('href');
+    $this->visitPath($path);
   }
 
   /**
    * Click some link contained in some element.
    *
    * @When I click on :link below the element :locator
+   * @When I click on :link below the element with :selector selector :locator
    */
-  public function clickLinkBelowElement($link, $locator) {
-    $element = $this->getSession()->getPage()->find('css', $locator);
+  public function clickLinkBelowElement($link, $locator, $selector = 'css') {
+
+    $element = $this->getSession()->getPage()->find($selector, $locator);
     if (!isset($element)) {
-      throw new ElementNotFoundException($this->getDriver(), NULL, 'css', $locator);
+      throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
     }
     $element->clickLink($link);
   }
@@ -93,11 +118,13 @@ trait MinkElementTrait  {
    * Press some button contained in some element.
    *
    * @When I press on :button below the element :locator
+   * @When I press on :button below the element with :selector selector :locator
    */
-  public function pressButtonBelowElement($button, $locator) {
-    $element = $this->getSession()->getPage()->find('css', $locator);
+  public function pressButtonBelowElement($button, $locator, $selector = 'css') {
+    $element = $this->getSession()->getPage()->find($selector, $locator);
+
     if (!isset($element)) {
-      throw new ElementNotFoundException($this->getDriver(), NULL, 'css', $locator);
+      throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
     }
     $element->pressButton($button);
   }
