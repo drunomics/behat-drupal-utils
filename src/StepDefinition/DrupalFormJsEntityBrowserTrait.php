@@ -65,6 +65,19 @@ trait DrupalFormJsEntityBrowserTrait {
   }
 
   /**
+   * @Given I click on item with name :name in entity browser :entity_browser
+   */
+  public function iClickOnItemWithNameInEntityInBrowser($name, $entity_browser) {
+    $found_element = $this->getSession()
+      ->evaluateScript("jQuery(\"#entity_browser_iframe_$entity_browser\").contents().find(\".views-field-name:contains('$name')\").length > 0");
+    if (!$found_element) {
+      throw new ExpectationException('Element not found.', $this->getSession());
+    }
+    $this->getSession()
+      ->evaluateScript("jQuery(\"#entity_browser_iframe_$entity_browser\").contents().find(\".views-field-name:contains('$name')\").first().closest(\".views-row\").click()");
+  }
+
+  /**
    * @Given Item with label :label in entity browser :entity_browser should have the class :class_name
    */
   public function itemInEntityBrowserShouldHaveClass($label, $enity_browser, $class_name) {

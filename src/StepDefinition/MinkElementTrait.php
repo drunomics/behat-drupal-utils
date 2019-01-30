@@ -129,4 +129,18 @@ trait MinkElementTrait  {
     $element->pressButton($button);
   }
 
+  /**
+   * @Then Value of input field :locator is :value
+   */
+  public function inputHasValue($locator, $value, $selector = 'css') {
+    $el = $this->getSession()->getPage()->find($selector , $locator);
+    $selectedValue = $el->getValue();
+    if (($value == 'empty' && !empty($selectedValue))
+      || ($value != 'empty' && trim($selectedValue) != $value)) {
+      throw new ExpectationException(
+        'Value was expected to be empty but it was ' . $selectedValue . '.',
+        $this->getSession());
+    }
+  }
+
 }
