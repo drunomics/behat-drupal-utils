@@ -95,7 +95,7 @@ trait MinkElementTrait  {
     if (!isset($element)) {
       throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
     }
-    $path = $element->findLink('Edit')->getAttribute('href');
+    $path = $element->findLink($link)->getAttribute('href');
     $this->visitPath($path);
   }
 
