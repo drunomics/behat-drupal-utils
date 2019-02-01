@@ -130,11 +130,14 @@ trait MinkElementTrait  {
   }
 
   /**
+   * Check input field for value.
+   *
    * @Then Value of input field :locator is :value
+   * @Then Value of input field :locator with :selector is :value
    */
   public function inputHasValue($locator, $value, $selector = 'css') {
-    $el = $this->getSession()->getPage()->find($selector , $locator);
-    $selectedValue = $el->getValue();
+    $element = $this->getSession()->getPage()->find($selector , $locator);
+    $selectedValue = $element->getValue();
     if (($value == 'empty' && !empty($selectedValue))
       || ($value != 'empty' && trim($selectedValue) != $value)) {
       throw new ExpectationException(
