@@ -95,7 +95,7 @@ trait MinkElementTrait  {
     if (!isset($element)) {
       throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
     }
-    $path = $element->findLink('Edit')->getAttribute('href');
+    $path = $element->findLink($link)->getAttribute('href');
     $this->visitPath($path);
   }
 
@@ -127,6 +127,23 @@ trait MinkElementTrait  {
       throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
     }
     $element->pressButton($button);
+  }
+
+  /**
+   * Check input field for value.
+   *
+   * @Then Value of input field :locator is :value
+   * @Then Value of input field :locator with :selector is :value
+   */
+  public function inputHasValue($locator, $value, $selector = 'css') {
+    $element = $this->getSession()->getPage()->find($selector , $locator);
+    $selectedValue = $element->getValue();
+    if (($value == 'empty' && !empty($selectedValue))
+      || ($value != 'empty' && trim($selectedValue) != $value)) {
+      throw new ExpectationException(
+        'Value was expected to be empty but it was ' . $selectedValue . '.',
+        $this->getSession());
+    }
   }
 
 }
