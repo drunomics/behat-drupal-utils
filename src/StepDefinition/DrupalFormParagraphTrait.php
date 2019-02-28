@@ -75,11 +75,18 @@ trait DrupalFormParagraphTrait {
       ->find($xpath_paragraph_list)[0]
       ->findButton($paragraph_type_label)
       ->click();
+
+    $index = $slot - 1;
+    $condition = "return jQuery(\"div[data-drupal-selector=edit-field-paragraphs-$index]\").length";
+    $result = $this->getSession()->wait(5000, $condition);
+    if (!$result) {
+      throw new ExpectationException("Unable to add paragraph $paragraph_type_label at slot $slot.");
+    }
   }
 
   /**
    * @Then I fill in the Wysiwyg :locator with :value in paragraph number :slot
-   * 
+   *
    * Requires javascript.
    */
   public function iFillInTheWysiwygWithInParagraphNumber($locator, $value, $slot) {
