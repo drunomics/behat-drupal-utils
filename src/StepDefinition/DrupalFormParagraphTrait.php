@@ -3,6 +3,7 @@
 namespace drunomics\BehatDrupalUtils\StepDefinition;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Mink\Exception\ExpectationException;
 
 /**
  * Steps around paragraph widgets in Drupal forms.
@@ -68,17 +69,15 @@ trait DrupalFormParagraphTrait {
    * @Then I add a paragraph :paragraph_type_label at slot number :slot
    */
   public function iAddAParagraphAtSlotNumber($paragraph_type_label, $slot) {
-    $xpath_add_button = "//div[contains(@class, 'field--widget-paragraphs')]//table[contains(@class, 'field-multiple-table--paragraphs')]/tbody/tr[contains(@class, 'paragraphs-features__add-in-between__row')][$slot]";
-    $xpath_paragraph_list = "//div[contains(@class, 'ui-dialog')]//ul";
-    $this->getSession()->getDriver()->click($xpath_add_button);
-    $this->getSession()->getDriver()
-      ->find($xpath_paragraph_list)[0]
-      ->findButton($paragraph_type_label)
-      ->click();
-
     $index = $slot - 1;
-    $condition = "return jQuery(\"div[data-drupal-selector=edit-field-paragraphs-$index]\").length";
-    $result = $this->getSession()->wait(5000, $condition);
+
+    $this->getSession()->executeScript("jQuery(jQuery(\".paragraphs-features__add-in-between__button\").get($index)).trigger('click');");
+
+    $this->getSession()->wait(5000, "return jQuery('.ui-dialog input[value=\"$paragraph_type_label\"]').length");
+
+    $this->getSession()->executeScript("jQuery('.ui-dialog input[value=\"$paragraph_type_label\"]').trigger('mousedown');");
+
+    $result = $this->getSession()->wait(5000, "return jQuery(\"div[data-drupal-selector=edit-field-paragraphs-$index]\").length");
     if (!$result) {
       throw new ExpectationException("Unable to add paragraph $paragraph_type_label at slot $slot.");
     }
@@ -90,6 +89,14 @@ trait DrupalFormParagraphTrait {
    * Requires javascript.
    */
   public function iFillInTheWysiwygWithInParagraphNumber($locator, $value, $slot) {
+    $index = $slot - 1;
+
+    $condition = "return jQuery(\"div[data-drupal-selector=edit-field-paragraphs-$index] label:contains('$locator')\").next().find('.cke_inner').length";
+    $result = $this->getSession()->wait(5000, $condition);
+    if (!$result) {
+      throw new ExpectationException("Unable to find the Wysiwyg for $locator in paragraph at slot $slot.");
+    }
+
     $paragraph = $this->getParagraphForm($slot);
     $this->setDataInWysiwyg($locator, $value, $paragraph);
   }
