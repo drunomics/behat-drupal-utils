@@ -27,18 +27,30 @@ class DrupalCleanTestContentApiContext extends RawDrupalContext {
     $nids = \Drupal::entityQuery('node')
       ->condition('title', 'BEHAT:', 'STARTS_WITH')
       ->execute();
-    if (!$nids) {
-      return;
+    if (!empty($nids)) {
+      $nodes = \Drupal::entityTypeManager('node')
+        ->getStorage('node')
+        ->loadMultiple($nids);
+      if (!empty($nodes)) {
+        \Drupal::entityTypeManager('node')
+          ->getStorage('node')
+          ->delete($nodes);
+      }
     }
-    $nodes = \Drupal::entityTypeManager('node')
-      ->getStorage('node')
-      ->loadMultiple($nids);
-    if (!$nodes) {
-      return;
+
+    $tids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('title', 'BEHAT:', 'STARTS_WITH')
+      ->execute();
+    if (!empty($tids)) {
+      $terms = \Drupal::entityTypeManager('taxonomy_term')
+        ->getStorage('taxonomy_term')
+        ->loadMultiple($tids);
+      if (!empty($terms)) {
+        \Drupal::entityTypeManager('taxonomy_term')
+          ->getStorage('taxonomy_term')
+          ->delete($terms);
+      }
     }
-    \Drupal::entityTypeManager('node')
-      ->getStorage('node')
-      ->delete($nodes);
   }
 
 }
