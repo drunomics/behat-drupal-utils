@@ -26,14 +26,16 @@ trait DrupalFormJsEntityBrowserTrait {
   /**
    * Function to build jQuery selector for entity browser item.
    *
+   * @param string $title_field_class
+   *   Class of field containing label e.g. .views-field-title.
    * @param string $label
    *   Label of entity browser item.
    *
    * @return string
    *   Selector for jQuery to target entity browser item.
    */
-  protected function getEntityBrowserItemSelector($label) {
-    return ".views-row .views-field-title .media-info:contains($label)";
+  protected function getEntityBrowserItemSelector($title_field_class, $label) {
+    return ".views-row $title_field_class .media-info:contains($label)";
   }
 
   /**
@@ -51,9 +53,10 @@ trait DrupalFormJsEntityBrowserTrait {
 
   /**
    * @Given I click on item :label in entity browser :entity_browser
+   * @Given I click on item :label in entity browser :entity_browser in field with class :title_field_class
    */
-  public function iClickOnItemInEntityBrowser($label, $enity_browser) {
-    $item_selector = $this->getEntityBrowserItemSelector($label);
+  public function iClickOnItemInEntityBrowser($label, $enity_browser, $title_field_class = ".views-field-title") {
+    $item_selector = $this->getEntityBrowserItemSelector($title_field_class, $label);
     $entity_browser_selector = $this->getEntityBrowserSelector($enity_browser);
     $found_element = $this->getSession()
       ->evaluateScript("jQuery(\"$entity_browser_selector\").contents().find(\"$item_selector\").length > 0");
@@ -79,9 +82,10 @@ trait DrupalFormJsEntityBrowserTrait {
 
   /**
    * @Given Item with label :label in entity browser :entity_browser should have the class :class_name
+   * @Given Item with label :label in entity browser :entity_browser in field with class :title_field_class should have the class :class_name
    */
-  public function itemInEntityBrowserShouldHaveClass($label, $enity_browser, $class_name) {
-    $item_selector = $this->getEntityBrowserItemSelector($label);
+  public function itemInEntityBrowserShouldHaveClass($label, $enity_browser, $title_field_class = ".views-field-title", $class_name) {
+    $item_selector = $this->getEntityBrowserItemSelector($title_field_class, $label);
     $entity_browser_selector = $this->getEntityBrowserSelector($enity_browser);
     $this->getSession()->getDriver()->wait(1000, "");
     $result = $this->getSession()
