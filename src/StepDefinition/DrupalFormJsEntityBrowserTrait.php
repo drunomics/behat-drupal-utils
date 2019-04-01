@@ -53,9 +53,10 @@ trait DrupalFormJsEntityBrowserTrait {
 
   /**
    * @Given I click on item :label in entity browser :entity_browser
+   * @Given I click on item :label in entity browser :entity_browser in field with class :title_field_class
    */
-  public function iClickOnItemInEntityBrowser($label, $enity_browser) {
-    $item_selector = $this->getEntityBrowserItemSelector($label);
+  public function iClickOnItemInEntityBrowser($label, $enity_browser, $title_field_class = ".views-field-title") {
+    $item_selector = $this->getEntityBrowserItemSelector($title_field_class, $label);
     $entity_browser_selector = $this->getEntityBrowserSelector($enity_browser);
     $found_element = $this->getSession()
       ->evaluateScript("jQuery(\"$entity_browser_selector\").contents().find(\"$item_selector\").length > 0");
@@ -80,9 +81,10 @@ trait DrupalFormJsEntityBrowserTrait {
   }
 
   /**
+   * @Given Item with label :label in entity browser :entity_browser should have the class :class_name
    * @Given Item with label :label in entity browser :entity_browser in field with class :title_field_class should have the class :class_name
    */
-  public function itemInEntityBrowserShouldHaveClass($label, $enity_browser, $title_field_class, $class_name) {
+  public function itemInEntityBrowserShouldHaveClass($label, $enity_browser, $title_field_class = ".views-field-title", $class_name) {
     $item_selector = $this->getEntityBrowserItemSelector($title_field_class, $label);
     $entity_browser_selector = $this->getEntityBrowserSelector($enity_browser);
     $this->getSession()->getDriver()->wait(1000, "");
