@@ -26,11 +26,11 @@ class SiteVariantContext extends RawDrupalContext {
    */
   public function setSiteVariant($variant) {
     $variant_base_url = NULL;
-    $matcher = new RequestMatcher();
-    if ($variant_base_url = $matcher->getHostForSiteVariant($variant)) {
-      $this->setBaseUrl($variant_base_url);
+    $matcher = RequestMatcher::getInstance();
+    if ($variant_host = $matcher->getHostForSiteVariant($variant)) {
+      $this->setBaseUrl($variant_host);
     } else {
-      throw new Exception('Specified site variant does not exist.');
+      throw new \Exception('Specified site variant does not exist.');
     }
   }
 
