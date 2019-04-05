@@ -39,7 +39,7 @@ class DrupalCleanTestContentApiContext extends RawDrupalContext {
     }
 
     $tids = \Drupal::entityQuery('taxonomy_term')
-      ->condition('title', 'BEHAT:', 'STARTS_WITH')
+      ->condition('name', 'BEHAT:', 'STARTS_WITH')
       ->execute();
     if (!empty($tids)) {
       $terms = \Drupal::entityTypeManager('taxonomy_term')
