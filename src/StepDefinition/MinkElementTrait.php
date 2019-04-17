@@ -147,7 +147,7 @@ trait MinkElementTrait  {
   }
 
   /**
-   * Check text in element apperas certain amount of times.
+   * Check text in element appears certain amount of times.
    *
    * @When Text :text in element :element should appear on page :number times
    * @When Text :text in element :element with selector :selector should appear on page :number times
