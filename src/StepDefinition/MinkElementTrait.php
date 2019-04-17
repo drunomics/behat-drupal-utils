@@ -146,4 +146,30 @@ trait MinkElementTrait  {
     }
   }
 
+  /**
+   * Check text in element apperas certain amount of times.
+   *
+   * @When Text :text in element :element should appear on page :number times
+   * @When Text :text in element :element with selector :selector should appear on page :number times
+   */
+  public function textAppearsTimesInElement($text, $element, $number, $selector = 'css') {
+    $elements = $this->getSession()->getPage()->findAll($selector, $element);
+
+    if (!empty($elements)) {
+      $appearances = 0;
+      foreach ($elements as $element) {
+        if (strpos($element->getText(), $text) !== false) {
+          $appearances++;
+        }
+      }
+    }
+    else {
+      throw new ElementNotFoundException($this->getDriver(), NULL, $element, $locator);
+    }
+
+    if ($appearances != $number) {
+      throw new ExpectationException("$text appeared $appearances times instead of $number", $this->getSession());
+    }
+  }
+
 }
