@@ -39,9 +39,16 @@ class DrupalErrorCheckApiContext extends RawDrupalContext {
   }
 
   /**
+   * @Then /^there are no watchdog errors$/
+   */
+  public function IshouldSeeNoErrors() {
+    static::checkForWatchdogErrors();
+  }
+
+  /**
    * @AfterFeature
    */
-  public static function afterFeature() {
+  public static function checkForWatchdogErrors() {
     $timestamp = static::$timestamp;
     $query = \Drupal::database()->select('watchdog', 'w');
     $query->fields("w");
