@@ -51,6 +51,18 @@ trait MinkElementTrait  {
   }
 
   /**
+   * @When I debug the element :locator
+   * @When I debug the element with :selector selector :locator
+   */
+  public function iDebugTheElement($locator, $selector = 'css') {
+    $element = $this->getSession()->getPage()->find($selector, $locator);
+    if (!isset($element)) {
+      throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $locator);
+    }
+    echo $element->getOuterHtml();
+  }
+
+  /**
    * Focus some element.
    *
    * @When I focus the element :locator
