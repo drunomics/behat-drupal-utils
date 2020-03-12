@@ -96,8 +96,6 @@ class HttpHeadersContext extends RawDrupalContext {
   }
 
   /**
-   * Change primary topic of node.
-   *
    * @Then I can see there is a cache HIT at least in one of X-Cache, X-Drupal-Cache, X-Varnish-Cache
    */
   public function theCacheHitExists() {
