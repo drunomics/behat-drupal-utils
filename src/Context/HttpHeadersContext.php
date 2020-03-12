@@ -2,6 +2,7 @@
 
 namespace drunomics\BehatDrupalUtils\Context;
 
+use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
