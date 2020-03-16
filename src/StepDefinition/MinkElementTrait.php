@@ -190,7 +190,7 @@ trait MinkElementTrait  {
    * @When I visit node with title :title
    */
   public function visitNodeByTitle($title) {
-    $entityTypeManager = $this->getEntityTypeManager();
+    $entityTypeManager = \Drupal::entityTypeManager();
     $nodes = $entityTypeManager
         ->getStorage('node')
         ->loadByProperties(['title' => $title]);
