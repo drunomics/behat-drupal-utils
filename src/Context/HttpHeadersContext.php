@@ -97,17 +97,14 @@ class HttpHeadersContext extends RawDrupalContext {
   }
 
   /**
-   * @Then I can see there is a cache HIT at least in one of X-Cache, X-Drupal-Cache, X-Varnish-Cache
+   * @Then I can see there is a cache HIT in at least in one of X-Cache, X-Drupal-Cache, X-Varnish-Cache
    */
-  public function theCacheHitExists() {
-    try{
-      $this->assertSession()->responseHeaderContains("X-Cache", "HIT");
-    }catch (ExpectationException $exception){
-      try {
-        $this->assertSession()->responseHeaderContains("X-Drupal-Cache", "HIT");
-      }catch (ExpectationException $exception1){
-        $this->assertSession()->responseHeaderContains("X-Varnish-Cache", "HIT");
-      }
+  public function theCacheHitExists1() {
+    if ($this->getSession()->getResponseHeader("X-Cache") != "HIT" &&
+        $this->getSession()->getResponseHeader("X-Drupal-Cache") != "HIT" &&
+        $this->getSession()->getResponseHeader("X-Varnish-Cache") != "HIT") {
+      $message = 'The text "HIT" was not found anywhere in the "X-Cache, X-Drupal-Cache" or "X-Varnish-Cache" response headers.';
+      throw new ExpectationException($message, $this->getSession()->getDriver());
     }
   }
 
