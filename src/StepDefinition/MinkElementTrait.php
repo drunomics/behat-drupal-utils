@@ -184,4 +184,22 @@ trait MinkElementTrait  {
     }
   }
 
+  /**
+   * Visit node page by title.
+   *
+   * @When I visit node with title :title
+   */
+  public function visitNodeByTitle($title) {
+    $entityTypeManager = $this->getEntityTypeManager();
+    $nodes = $entityTypeManager
+        ->getStorage('node')
+        ->loadByProperties(['title' => $title]);
+    if ($node = reset($nodes)) {
+      $this->visitPath($node->toUrl()->getInternalPath());
+    }
+    else {
+      throw new \Exception('Unable to load node.');
+    }
+  }
+
 }
