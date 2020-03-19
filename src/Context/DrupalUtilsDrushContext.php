@@ -31,7 +31,7 @@ class DrupalUtilsDrushContext extends RawDrupalContext {
    *
    * @When I clone the :type node with title :foo to a node with title :name
    */
-  public function cloneNodeByTitle($type,$foo, $name) {
+  public function cloneNodeByTitle($type, $foo, $name) {
     $storage = $this->getEntityTypeManager()->getStorage('node');
     $nodes = $storage->loadByProperties([
         'title' => $foo,
