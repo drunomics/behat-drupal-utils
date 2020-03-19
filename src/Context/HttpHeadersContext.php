@@ -2,6 +2,7 @@
 
 namespace drunomics\BehatDrupalUtils\Context;
 
+use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
@@ -92,6 +93,18 @@ class HttpHeadersContext extends RawDrupalContext {
       $word = trim($word);
       $match = "/(\s|^)$word.*?(\,|\s|$)/";
       $this->assertSession()->responseHeaderNotMatches($header, $match);
+    }
+  }
+
+  /**
+   * @Then I can see there is a cache HIT at least in one of X-Cache, X-Drupal-Cache, X-Varnish-Cache
+   */
+  public function theCacheHitExists() {
+    if ($this->getSession()->getResponseHeader("X-Cache") != "HIT" &&
+        $this->getSession()->getResponseHeader("X-Drupal-Cache") != "HIT" &&
+        $this->getSession()->getResponseHeader("X-Varnish-Cache") != "HIT") {
+      $message = 'The text "HIT" was not found anywhere in the "X-Cache, X-Drupal-Cache" or "X-Varnish-Cache" response headers.';
+      throw new ExpectationException($message, $this->getSession()->getDriver());
     }
   }
 

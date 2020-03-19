@@ -13,6 +13,7 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Logger\RfcLogLevel;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use drunomics\ServiceUtils\Core\Entity\EntityTypeManagerTrait;
 
 /**
  * Provides steps for operating with mink elements.
@@ -181,6 +182,25 @@ trait MinkElementTrait  {
 
     if ($appearances != $number) {
       throw new ExpectationException("$text appeared $appearances times instead of $number", $this->getSession());
+    }
+  }
+
+  /**
+   * Visit node page by title.
+   *
+   * @When I visit :type node with title :title
+   */
+  public function visitNodeByTitle($type, $title) {
+    $storage = $this->getEntityTypeManager()->getStorage('node');
+    $nodes = $storage->loadByProperties([
+        'title' => $title,
+        'type' => $type,
+    ]);
+    if ($node = reset($nodes)) {
+      $this->visitPath($node->toUrl()->toString());
+    }
+    else {
+      throw new \Exception('Unable to load node.');
     }
   }
 
