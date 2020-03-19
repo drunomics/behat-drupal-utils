@@ -99,7 +99,7 @@ class HttpHeadersContext extends RawDrupalContext {
   /**
    * @Then I can see there is a cache HIT at least in one of X-Cache, X-Drupal-Cache, X-Varnish-Cache
    */
-  public function theCacheHitExists1() {
+  public function theCacheHitExists() {
     if ($this->getSession()->getResponseHeader("X-Cache") != "HIT" &&
         $this->getSession()->getResponseHeader("X-Drupal-Cache") != "HIT" &&
         $this->getSession()->getResponseHeader("X-Varnish-Cache") != "HIT") {

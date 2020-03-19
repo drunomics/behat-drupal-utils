@@ -41,7 +41,6 @@ class DrupalUtilsDrushContext extends RawDrupalContext {
       throw new \Exception('Unable to load node.');
     }
     $clone = $node->createDuplicate();
-    // change title
     $clone->title = $name;
     $clone->set('moderation_state', "published");
     $clone->save();

@@ -190,7 +190,7 @@ trait MinkElementTrait  {
    *
    * @When I visit :type node with title :title
    */
-  public function visitNodeByTitle($type,$title) {
+  public function visitNodeByTitle($type, $title) {
     $storage = $this->getEntityTypeManager()->getStorage('node');
     $nodes = $storage->loadByProperties([
         'title' => $title,
