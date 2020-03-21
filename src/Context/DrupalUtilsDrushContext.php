@@ -26,23 +26,4 @@ class DrupalUtilsDrushContext extends RawDrupalContext {
   use DrupalFormParagraphTrait;
   use EntityTypeManagerTrait;
 
-  /**
-   * Clone node by title.
-   *
-   * @When I clone the :type node with title :foo to a node with title :name
-   */
-  public function cloneNodeByTitle($type, $foo, $name) {
-    $storage = $this->getEntityTypeManager()->getStorage('node');
-    $nodes = $storage->loadByProperties([
-        'title' => $foo,
-        'type' => $type,
-    ]);
-    if (!$node = reset($nodes)) {
-      throw new \Exception('Unable to load node.');
-    }
-    $clone = $node->createDuplicate();
-    $clone->title = $name;
-    $clone->set('moderation_state', "published");
-    $clone->save();
-  }
 }
