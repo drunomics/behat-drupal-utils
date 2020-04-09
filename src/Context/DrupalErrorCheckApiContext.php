@@ -15,6 +15,18 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class DrupalErrorCheckApiContext extends RawDrupalContext {
 
   /**
+   * Watchdog errors severity level.
+   *
+   * @var RfcLogLevel $severity_level
+   */
+  protected static $severity_level;
+
+  public function __construct($severity_level = RfcLogLevel::WARNING)
+  {
+    static::$severity_level = $severity_level;
+  }
+
+  /**
    * @Then /^I should not see any javascript errors in the console$/
    */
   public function iShouldNotSeeAnyJavascriptErrorsInTheConsole() {
@@ -50,14 +62,14 @@ class DrupalErrorCheckApiContext extends RawDrupalContext {
    */
   public static function checkForWatchdogErrors() {
     $timestamp = static::$timestamp;
+    $severity_level = static::$severity_level;
     $query = \Drupal::database()->select('watchdog', 'w');
     $query->fields("w");
     $query->condition('timestamp', $timestamp, '>');
-    $query->condition('severity', RfcLogLevel::NOTICE, '<=');
+    $query->condition('severity', $severity_level, '<=');
     $query->condition('type', 'php');
     $query->orderBy('timestamp', 'DESC');
     $log_entries = $query->execute()->fetchAllAssoc('wid');
-
     if ($log_entries && is_array($log_entries)) {
       foreach ($log_entries as $entry) {
         // @see \Drupal\dblog\Controller\DbLogController::formatMessage()
