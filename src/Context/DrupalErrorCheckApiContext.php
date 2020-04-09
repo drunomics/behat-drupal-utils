@@ -53,7 +53,7 @@ class DrupalErrorCheckApiContext extends RawDrupalContext {
     $query = \Drupal::database()->select('watchdog', 'w');
     $query->fields("w");
     $query->condition('timestamp', $timestamp, '>');
-    $query->condition('severity', RfcLogLevel::WARNING, '<=');
+    $query->condition('severity', RfcLogLevel::NOTICE, '<=');
     $query->condition('type', 'php');
     $query->orderBy('timestamp', 'DESC');
     $log_entries = $query->execute()->fetchAllAssoc('wid');
