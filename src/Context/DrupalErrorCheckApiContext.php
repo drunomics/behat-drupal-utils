@@ -21,6 +21,12 @@ class DrupalErrorCheckApiContext extends RawDrupalContext {
    */
   protected static $fail_on_notice;
 
+  /**
+   * Construct a new entity.
+   *
+   * @param bool $fail_on_notice
+   *   Variable to change severity level of watchdog errors.
+   */
   public function __construct($fail_on_notice = FALSE) {
     static::$fail_on_notice = $fail_on_notice;
   }
