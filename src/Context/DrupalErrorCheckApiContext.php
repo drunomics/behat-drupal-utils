@@ -15,15 +15,14 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class DrupalErrorCheckApiContext extends RawDrupalContext {
 
   /**
-   * Watchdog errors severity level.
+   * If watchdog should fail on notice.
    *
-   * @var RfcLogLevel $severity_level
+   * @var boolean $fail_on_notice
    */
-  protected static $severity_level;
+  protected static $fail_on_notice;
 
-  public function __construct($severity_level = RfcLogLevel::WARNING)
-  {
-    static::$severity_level = $severity_level;
+  public function __construct($fail_on_notice = FALSE) {
+    static::$fail_on_notice = $fail_on_notice;
   }
 
   /**
@@ -62,7 +61,7 @@ class DrupalErrorCheckApiContext extends RawDrupalContext {
    */
   public static function checkForWatchdogErrors() {
     $timestamp = static::$timestamp;
-    $severity_level = static::$severity_level;
+    $severity_level = static::$fail_on_notice ? RfcLogLevel::NOTICE : RfcLogLevel::WARNING;
     $query = \Drupal::database()->select('watchdog', 'w');
     $query->fields("w");
     $query->condition('timestamp', $timestamp, '>');

@@ -43,16 +43,14 @@ frontend assets are loaded and no javascript or watchdog errors are triggered.
 When DrupalErrorCheckApiContext is added, all watchdog entries excluding `Notice`, `Info` and `Debug` will be detected
 and trigger PHP errors in the behat PHP runner automatically.
 
-##### Adjusting watchdog entries severity
+##### Adjusting watchdog entries severity to `NOTICE` level
 
-To change the error detection severity set the `severity_level` parameter in the behat.yml to the desired level as an int value.
-See `RfcLogLevel` for all possible levels.
+To change the error detection severity to `NOTICE` set the `fail_on_notice` parameter in the behat.yml to `TRUE`.
 
-Example setting severity level to `RfcLogLevel::NOTICE`:
 ```
 contexts:
   - drunomics\BehatDrupalUtils\Context\DrupalErrorCheckApiContext:
-      severity_level: 5
+      fail_on_notice: TRUE
 ```
 
 ## Credits
