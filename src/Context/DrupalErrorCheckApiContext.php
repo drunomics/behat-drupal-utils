@@ -15,6 +15,23 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class DrupalErrorCheckApiContext extends RawDrupalContext {
 
   /**
+   * If watchdog should fail on notice.
+   *
+   * @var boolean $fail_on_notice
+   */
+  protected static $fail_on_notice;
+
+  /**
+   * Construct a new entity.
+   *
+   * @param bool $fail_on_notice
+   *   Variable to change severity level of watchdog errors.
+   */
+  public function __construct($fail_on_notice = FALSE) {
+    static::$fail_on_notice = $fail_on_notice;
+  }
+
+  /**
    * @Then /^I should not see any javascript errors in the console$/
    */
   public function iShouldNotSeeAnyJavascriptErrorsInTheConsole() {
@@ -50,14 +67,14 @@ class DrupalErrorCheckApiContext extends RawDrupalContext {
    */
   public static function checkForWatchdogErrors() {
     $timestamp = static::$timestamp;
+    $severity_level = static::$fail_on_notice ? RfcLogLevel::NOTICE : RfcLogLevel::WARNING;
     $query = \Drupal::database()->select('watchdog', 'w');
     $query->fields("w");
     $query->condition('timestamp', $timestamp, '>');
-    $query->condition('severity', RfcLogLevel::WARNING, '<=');
+    $query->condition('severity', $severity_level, '<=');
     $query->condition('type', 'php');
     $query->orderBy('timestamp', 'DESC');
     $log_entries = $query->execute()->fetchAllAssoc('wid');
-
     if ($log_entries && is_array($log_entries)) {
       foreach ($log_entries as $entry) {
         // @see \Drupal\dblog\Controller\DbLogController::formatMessage()

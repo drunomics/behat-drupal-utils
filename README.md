@@ -38,9 +38,20 @@ frontend assets are loaded and no javascript or watchdog errors are triggered.
 * Add the provided js file to your sites js. The listener is required to catch js errors.
 
 ### Detecting watchdog errors
+##### Default behaviour
 
 When DrupalErrorCheckApiContext is added, all watchdog entries excluding `Notice`, `Info` and `Debug` will be detected
 and trigger PHP errors in the behat PHP runner automatically.
+
+##### Adjusting watchdog entries severity to `NOTICE` level
+
+To change the error detection severity to `NOTICE` set the `fail_on_notice` parameter in the behat.yml to `TRUE`.
+
+```
+contexts:
+  - drunomics\BehatDrupalUtils\Context\DrupalErrorCheckApiContext:
+      fail_on_notice: TRUE
+```
 
 ## Credits
  
