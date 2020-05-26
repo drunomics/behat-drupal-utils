@@ -49,18 +49,19 @@ class DrupalUtilsApiContext extends DrupalUtilsDrushContext {
   }
 
   /**
-   * Visit node edit page by title.
+   * Visit node custom page by title.
+   * Custom page includes edit, layout and revisions.
    *
-   * @When I visit :type edit page with title :title
+   * @When I visit :type titled :title :page page
    */
-  public function visitNodeEditByTitle($type, $title) {
+  public function visitNodeCustomPageByTitle($type, $title, $page) {
     $storage = $this->getEntityTypeManager()->getStorage('node');
     $nodes = $storage->loadByProperties([
       'title' => $title,
       'type' => $type,
     ]);
     if ($node = reset($nodes)) {
-      $this->visitPath($this->locatePath('/node/' . $node->id() . '/edit'));
+      $this->visitPath($this->locatePath('/node/' . $node->id() . '/' . $page));
     }
     else {
       throw new \Exception('Unable to load node.');
