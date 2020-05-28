@@ -49,18 +49,23 @@ class DrupalUtilsApiContext extends DrupalUtilsDrushContext {
   }
 
   /**
-   * Visit node edit page by title.
+   * Visit node custom page by title with optional custom destination.
+   * Example: When I visit "article" edit page with title "example article title"
+   * Example: When I visit "layout" page of "article" "example article title"
+   * Example: When I visit "layout" page of "article" "example article title" with "?destination=/admin/content"
    *
    * @When I visit :type edit page with title :title
+   * @When I visit :page page of :type :title
+   * @When I visit :page page of :type :title with :destination
    */
-  public function visitNodeEditByTitle($type, $title) {
+  public function visitNodeCustomPageByTitle($type, $title, $page = 'edit', $destination = '') {
     $storage = $this->getEntityTypeManager()->getStorage('node');
     $nodes = $storage->loadByProperties([
       'title' => $title,
       'type' => $type,
     ]);
     if ($node = reset($nodes)) {
-      $this->visitPath($this->locatePath('/node/' . $node->id() . '/edit'));
+      $this->visitPath($this->locatePath('/node/' . $node->id() . '/' . $page . $destination));
     }
     else {
       throw new \Exception('Unable to load node.');
