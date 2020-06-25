@@ -196,7 +196,7 @@ trait MinkElementTrait  {
    * @throws \Exception
    */
   public function iWaitForElementToAppear($waitTime = 5000, $num, $element) {
-    $this->spinFunction($waitTime, function ($context) use ($element, $num) {
+    $this->spinWaitForElementsToAppear($waitTime, function ($context) use ($element, $num) {
       try {
         $this->assertSession()->elementsCount('css', $element, intval($num));
         return TRUE;
@@ -209,7 +209,8 @@ trait MinkElementTrait  {
   }
 
   /**
-   * Implementation of spin method.
+   * Implementation of spin method to wait $waitTime for
+   * elements to appear.
    *
    * @param string $lambda
    *   Function expresion.
@@ -218,7 +219,7 @@ trait MinkElementTrait  {
    *
    * @throws \Exception
    */
-  private function spinFunction($waitTime, $lambda) {
+  private function spinWaitForElementsToAppear($waitTime, $lambda) {
     $tries = 0;
     $waitTime = round($waitTime / 300);
     while ($tries < $waitTime) {
@@ -235,7 +236,7 @@ trait MinkElementTrait  {
     }
     throw new ExpectationException("Matching number of elements not found." . $waitTime, $this->getSession());
   }
-  
+
   /**
    * @Given /^I set browser window size to "(\d+)" x "(\d+)"$/
    */
