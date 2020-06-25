@@ -186,21 +186,23 @@ trait MinkElementTrait  {
   }
 
   /**
+   * @Then /^(?:|I )wait (?P<waitTime>\d+) ms for (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
    * @Then /^(?:|I )wait for (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
    *
    * @param string $element
    * @param int $num
+   * @param int $waitTime
    *
    * @throws \Exception
    */
-  public function iWaitForElementToAppear($num, $element) {
-    $this->spinFunction(function ($context) use ($element, $num) {
+  public function iWaitForElementToAppear($waitTime = 5000, $num, $element) {
+    $this->spinFunction($waitTime, function ($context) use ($element, $num) {
       try {
         $this->assertSession()->elementsCount('css', $element, intval($num));
         return TRUE;
       }
       catch (ExpectationException $e) {
-        // NOOP
+
       }
       return FALSE;
     });
@@ -216,9 +218,10 @@ trait MinkElementTrait  {
    *
    * @throws \Exception
    */
-  public function spinFunction($lambda) {
+  private function spinFunction($waitTime, $lambda) {
     $tries = 0;
-    while ($tries < 30) {
+    $waitTime = round($waitTime / 300);
+    while ($tries < $waitTime) {
       try {
         if ($lambda($this)) {
           return TRUE;
@@ -227,17 +230,17 @@ trait MinkElementTrait  {
       catch (Exception $e) {
         // Do nothing.
       }
-      sleep(1);
+      $this->waitForSomeTime(300);
       $tries++;
     }
-    throw new ExpectationException('Matching number of elements not found.', $this->getSession());
+    throw new ExpectationException("Matching number of elements not found." . $waitTime, $this->getSession());
   }
-
+  
   /**
    * @Given /^I set browser window size to "(\d+)" x "(\d+)"$/
    */
   public function iSetBrowserWindowSizeToX($width, $height) {
     $this->getSession()->resizeWindow((int) $width, (int) $height, 'current');
   }
-  
+
 }
