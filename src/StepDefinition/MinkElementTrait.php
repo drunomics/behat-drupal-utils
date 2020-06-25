@@ -196,45 +196,18 @@ trait MinkElementTrait  {
    * @throws \Exception
    */
   public function iWaitForElementToAppear($waitTime = 5000, $num, $element) {
-    $this->spinWaitForElementsToAppear($waitTime, function ($context) use ($element, $num) {
+    $exception = FALSE;
+    $exception = $this->getSession()->getPage()->waitFor($waitTime / 1000, function ($context) use ($element, $num) {
       try {
         $this->assertSession()->elementsCount('css', $element, intval($num));
         return TRUE;
-      }
-      catch (ExpectationException $e) {
-
+      } catch (ExpectationException $e) {
       }
       return FALSE;
     });
-  }
-
-  /**
-   * Implementation of spin method to wait $waitTime for
-   * elements to appear.
-   *
-   * @param string $lambda
-   *   Function expresion.
-   *
-   * @return bool
-   *
-   * @throws \Exception
-   */
-  private function spinWaitForElementsToAppear($waitTime, $lambda) {
-    $tries = 0;
-    $waitTime = round($waitTime / 300);
-    while ($tries < $waitTime) {
-      try {
-        if ($lambda($this)) {
-          return TRUE;
-        }
-      }
-      catch (Exception $e) {
-        // Do nothing.
-      }
-      $this->waitForSomeTime(300);
-      $tries++;
+    if (!$exception) {
+      throw new \Exception('Unable to find ' . $num . ' elements ' . $element);
     }
-    throw new ExpectationException("Matching number of elements not found." . $waitTime, $this->getSession());
   }
 
   /**
