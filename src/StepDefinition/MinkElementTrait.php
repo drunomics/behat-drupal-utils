@@ -185,4 +185,52 @@ trait MinkElementTrait  {
     }
   }
 
+  /**
+   * @Then /^(?:|I )wait for (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
+   *
+   * @param string $element
+   * @param int $num
+   *
+   * @throws \Exception
+   */
+  public function iWaitForElementToAppear($num, $element) {
+    $this->spinFunction(function ($context) use ($element, $num) {
+      try {
+        $this->assertSession()->elementsCount('css', $element, intval($num));
+        return TRUE;
+      }
+      catch (ResponseTextException $e) {
+        // NOOP.
+      }
+      return FALSE;
+    });
+  }
+
+  /**
+   * Implementation of spin method.
+   *
+   * @param string $lambda
+   *   Function expresion.
+   *
+   * @return bool
+   *
+   * @throws \Exception
+   */
+  public function spinFunction($lambda) {
+    $tries = 0;
+    $exception = null;
+    while ($tries < 30) {
+      try {
+        if ($lambda($this)) {
+          return TRUE;
+        }
+      }
+      catch (Exception $e) {
+        $exception = $e;
+      }
+      sleep(1);
+      $tries++;
+    }
+    throw $exception;
+  }
 }
