@@ -232,4 +232,12 @@ trait MinkElementTrait  {
     }
     throw new ExpectationException('Matching number of elements not found.', $this->getSession());
   }
+
+  /**
+   * @Given /^I set browser window size to "(\d+)" x "(\d+)"$/
+   */
+  public function iSetBrowserWindowSizeToX($width, $height) {
+    $this->getSession()->resizeWindow((int) $width, (int) $height, 'current');
+  }
+  
 }
