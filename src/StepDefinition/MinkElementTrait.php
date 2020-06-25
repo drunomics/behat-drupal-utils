@@ -199,8 +199,8 @@ trait MinkElementTrait  {
         $this->assertSession()->elementsCount('css', $element, intval($num));
         return TRUE;
       }
-      catch (ResponseTextException $e) {
-        // NOOP.
+      catch (ExpectationException $e) {
+        // NOOP
       }
       return FALSE;
     });
@@ -218,7 +218,6 @@ trait MinkElementTrait  {
    */
   public function spinFunction($lambda) {
     $tries = 0;
-    $exception = null;
     while ($tries < 30) {
       try {
         if ($lambda($this)) {
@@ -226,11 +225,11 @@ trait MinkElementTrait  {
         }
       }
       catch (Exception $e) {
-        $exception = $e;
+        // Do nothing.
       }
       sleep(1);
       $tries++;
     }
-    throw $exception;
+    throw new ExpectationException('Matching number of elements not found.', $this->getSession());
   }
 }
