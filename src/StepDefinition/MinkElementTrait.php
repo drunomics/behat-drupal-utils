@@ -193,7 +193,7 @@ trait MinkElementTrait  {
    * @param int $num
    * @param int $waitTime
    *
-   * @throws \Exception
+   * @throws \Behat\Mink\Exception\ExpectationException
    */
   public function iWaitForElementToAppear($waitTime = 5000, $num, $element) {
     $exception = FALSE;
@@ -201,12 +201,13 @@ trait MinkElementTrait  {
       try {
         $this->assertSession()->elementsCount('css', $element, intval($num));
         return TRUE;
-      } catch (ExpectationException $e) {
+      } 
+      catch (ExpectationException $e) {
       }
       return FALSE;
     });
     if (!$exception) {
-      throw new \Exception('Unable to find ' . $num . ' elements ' . $element);
+      throw new ExpectationException('Unable to find ' . $num . ' elements ' . $element, $this->getSession());
     }
   }
 
