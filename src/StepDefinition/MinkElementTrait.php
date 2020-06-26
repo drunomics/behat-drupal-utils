@@ -185,4 +185,37 @@ trait MinkElementTrait  {
     }
   }
 
+  /**
+   * @Then /^(?:|I )wait (?P<waitTime>\d+) ms for (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
+   * @Then /^(?:|I )wait for (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
+   *
+   * @param string $element
+   * @param int $num
+   * @param int $waitTime
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   */
+  public function iWaitForElementToAppear($waitTime = 5000, $num, $element) {
+    $exception = FALSE;
+    $exception = $this->getSession()->getPage()->waitFor($waitTime / 1000, function ($context) use ($element, $num) {
+      try {
+        $this->assertSession()->elementsCount('css', $element, intval($num));
+        return TRUE;
+      } 
+      catch (ExpectationException $e) {
+      }
+      return FALSE;
+    });
+    if (!$exception) {
+      throw new ExpectationException('Unable to find ' . $num . ' elements ' . $element, $this->getSession());
+    }
+  }
+
+  /**
+   * @Given /^I set browser window size to "(\d+)" x "(\d+)"$/
+   */
+  public function iSetBrowserWindowSizeToX($width, $height) {
+    $this->getSession()->resizeWindow((int) $width, (int) $height, 'current');
+  }
+
 }
