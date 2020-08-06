@@ -11,6 +11,6 @@ use drunomics\BehatDrupalUtils\StepDefinition\MinkElementTrait;
  */
 class MinkUtilsContext extends RawMinkContext {
 
-  use JavascriptUtilStepsTraitStepsTrait;
+  use JavascriptUtilStepsTrait;
   use MinkElementTrait;
 }
