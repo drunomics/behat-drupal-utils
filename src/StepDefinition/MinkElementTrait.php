@@ -212,6 +212,37 @@ trait MinkElementTrait  {
   }
 
   /**
+   * @Then /^(?:|I )wait (?P<waitTime>\d+) ms for at least (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
+   * @Then /^(?:|I )wait for at least (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
+   *
+   * @param string $element
+   * @param int $num
+   * @param int $waitTime
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   */
+  public function iWaitForAtLeastElementToAppear($waitTime = 5000, $num, $element) {
+    $container = $this->getSession()->getPage();
+    $exception = FALSE;
+    $exception = $this->getSession()->getPage()->waitFor($waitTime / 1000, function ($context) use ($element, $num, $container) {
+      try {
+        $nodes = $container->findAll('css', $element);
+        $message = count($nodes) . $element . 'found on the page, but should be at least' . $num;
+        if (intval($num) > count($nodes)) {
+          throw new ExpectationException($message, $this->getSession()->getDriver());
+        }
+        return TRUE;
+      }
+      catch (ExpectationException $e) {
+      }
+      return FALSE;
+    });
+    if (!$exception) {
+      throw new ExpectationException('Unable to find at least ' . $num . ' elements ' . $element, $this->getSession());
+    }
+  }
+
+  /**
    * @Given /^I set browser window size to "(\d+)" x "(\d+)"$/
    */
   public function iSetBrowserWindowSizeToX($width, $height) {
