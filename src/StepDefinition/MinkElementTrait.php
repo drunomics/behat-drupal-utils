@@ -222,11 +222,9 @@ trait MinkElementTrait  {
    * @throws \Behat\Mink\Exception\ExpectationException
    */
   public function iWaitForAtLeastElementToAppear($waitTime = 5000, $num, $element) {
-    $container = $this->getSession()->getPage();
-    $exception = FALSE;
-    $exception = $this->getSession()->getPage()->waitFor($waitTime / 1000, function ($context) use ($element, $num, $container) {
+    $exception = $this->getSession()->getPage()->waitFor($waitTime / 1000, function ($context) use ($element, $num) {
       try {
-        $nodes = $container->findAll('css', $element);
+        $nodes = $this->getSession()->getPage()->findAll('css', $element);
         $message = count($nodes) . $element . 'found on the page, but should be at least' . $num;
         if (intval($num) > count($nodes)) {
           throw new ExpectationException($message, $this->getSession()->getDriver());
