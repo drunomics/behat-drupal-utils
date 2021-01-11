@@ -96,4 +96,25 @@ JS;
       $this->triggerTheEventOnTheElement($eventName, $selector);
   }
 
+  /**
+   * @Then /^I prepare window load event listener$/
+   */
+  public function beforeFeature() {
+    $script = <<<JS
+      window.is_completely_loaded = false;
+      window.addEventListener('load', (event) => {
+          window.is_completely_loaded = true;
+      });
+JS;
+    $this->getSession()
+      ->evaluateScript($script);
+  }
+
+  /**
+   * @Then /^I make sure the page is completely loaded$/
+   */
+  public function iMakeSurePageIsCompletelyLoaded() {
+    $this->getSession()->wait(30000, "window.is_completely_loaded === true");
+  }
+
 }
