@@ -177,7 +177,7 @@ trait MinkElementTrait  {
       }
     }
     else {
-      throw new ElementNotFoundException($this->getDriver(), NULL, $element, $locator);
+      throw new ElementNotFoundException($this->getDriver(), NULL, $selector, $element);
     }
 
     if ($appearances != $number) {
