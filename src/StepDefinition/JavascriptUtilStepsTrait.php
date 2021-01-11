@@ -102,7 +102,7 @@ JS;
   public function beforeFeature() {
     $script = <<<JS
       window.is_completely_loaded = false;
-      let loadEventHandler = function(e) {
+      var loadEventHandler = function(e) {
         window.is_completely_loaded = true;
       }
       window.addEventListener('load', loadEventHandler);
