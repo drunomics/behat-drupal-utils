@@ -102,9 +102,10 @@ JS;
   public function beforeFeature() {
     $script = <<<JS
       window.is_completely_loaded = false;
-      window.addEventListener('load', (event) => {
-          window.is_completely_loaded = true;
-      });
+      let loadEventHandler = function(e) {
+        window.is_completely_loaded = true;
+      }
+      window.addEventListener('load', loadEventHandler);
 JS;
     $this->getSession()
       ->evaluateScript($script);
@@ -115,6 +116,12 @@ JS;
    */
   public function iMakeSurePageIsCompletelyLoaded() {
     $this->getSession()->wait(30000, "window.is_completely_loaded === true");
+    $script = <<<JS
+      window.removeEventListener("load", loadEventHandler);
+      
+JS;
+    $this->getSession()
+      ->evaluateScript($script);
   }
 
 }
