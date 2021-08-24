@@ -3,10 +3,13 @@
 namespace drunomics\BehatDrupalUtils\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\MinkExtension\Context\MinkAwareContext;
+use Behat\Testwork\Environment\Environment;
 use drunomics\MultisiteRequestMatcher\RequestMatcher;
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Drupal\DrupalExtension\Manager\DrupalAuthenticationManager;
 
 /**
  * Extends drupal context site variant support.
@@ -14,12 +17,11 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class SiteVariantContext extends RawDrupalContext {
 
   /**
-   * Environment array.
+   * The behat environment.
    *
-   * @var array
+   * @var Environment
    */
   protected $environment;
-
 
   /**
    * @Then I set site variant :variant
@@ -49,9 +51,14 @@ class SiteVariantContext extends RawDrupalContext {
    */
   private function setBaseUrl($url) {
     foreach ($this->environment->getContexts() as $context) {
-      if ($context instanceof RawMinkContext) {
+      if ($context instanceof MinkAwareContext) {
         $context->setMinkParameter('base_url', $url);
       }
+    }
+    // Also update the authentication manager of the drupal extension.
+    $authManager = $this->getAuthenticationManager();
+    if ($authManager instanceof DrupalAuthenticationManager) {
+      $authManager->setMinkParameter('base_url', $url);
     }
   }
 
@@ -63,8 +70,7 @@ class SiteVariantContext extends RawDrupalContext {
   public function beforeScenario(BeforeScenarioScope $scope) {
     // Load and save the environment for each scenario.
     $this->environment = $scope->getEnvironment();
-    $base_url = $this->getMinkParameter('base_url');
-    $this->setBaseUrl($base_url);
+    $this->setBaseUrl($this->getMinkParameter('base_url'));
   }
 
 }
