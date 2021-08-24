@@ -1,6 +1,10 @@
 {
   "name": "drunomics/behat-drupal-utils",
-  "description": "Provides utilities for running smoke tests and various useful behat contexts.",
+  "description": "Provides behat step definitinons, contexts and utilities for using Behat with Drupal.",
+  "require": {
+    "drupal/drupal-extension": "^4.1"
+
+  },
   "replace": {
     "drunomics/behat-drupal-smoke":"1.*"
   },
