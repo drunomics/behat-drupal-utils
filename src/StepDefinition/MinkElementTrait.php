@@ -195,7 +195,7 @@ trait MinkElementTrait  {
    *
    * @throws \Behat\Mink\Exception\ExpectationException
    */
-  public function iWaitForElementToAppear($waitTime = 5000, $num, $element) {
+  public function iWaitForElementToAppear($num, $element, $waitTime = 5000) {
     $exception = FALSE;
     $exception = $this->getSession()->getPage()->waitFor($waitTime / 1000, function ($context) use ($element, $num) {
       try {
