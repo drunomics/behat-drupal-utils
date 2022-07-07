@@ -186,8 +186,19 @@ trait MinkElementTrait  {
   }
 
   /**
-   * @Then /^(?:|I )wait (?P<waitTime>\d+) ms for (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
-   * @Then /^(?:|I )wait for (?P<num>\d+) "(?P<element>[^"]*)" elements to appear?$/
+   * @Then I wait for :num :element elements to appear
+   *
+   * @param string $element
+   * @param int $num
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   */
+  public function iWaitForElementToAppear($num, $element) {
+    return $this->iWaitMsForElementToAppear(5000, $num, $element);
+  }
+
+  /**
+   * @Then I wait :waitTime ms for :num :element elements to appear
    *
    * @param string $element
    * @param int $num
@@ -195,13 +206,13 @@ trait MinkElementTrait  {
    *
    * @throws \Behat\Mink\Exception\ExpectationException
    */
-  public function iWaitForElementToAppear($waitTime = 5000, $num, $element) {
+  public function iWaitMsForElementToAppear($waitTime, $num, $element) {
     $exception = FALSE;
     $exception = $this->getSession()->getPage()->waitFor($waitTime / 1000, function ($context) use ($element, $num) {
       try {
         $this->assertSession()->elementsCount('css', $element, intval($num));
         return TRUE;
-      } 
+      }
       catch (ExpectationException $e) {
       }
       return FALSE;
