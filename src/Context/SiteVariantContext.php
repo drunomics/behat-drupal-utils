@@ -5,7 +5,6 @@ namespace drunomics\BehatDrupalUtils\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\MinkExtension\Context\MinkAwareContext;
 use Behat\Testwork\Environment\Environment;
-use drunomics\MultisiteRequestMatcher\RequestMatcher;
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -27,9 +26,8 @@ class SiteVariantContext extends RawDrupalContext {
    * @Then I set site variant :variant
    */
   public function setSiteVariant($variant) {
-    $variant_base_url = NULL;
-    $matcher = RequestMatcher::getInstance();
-    if ($variant_host = $matcher->getHostForSiteVariant($variant)) {
+    $variant_host = $variant . getenv('APP_SITE_VARIANT_SEPARATOR') . getenv('DRUPAL_SITE') . getenv('HOST_SEPARATOR') . getenv('MAIN_HOST');
+    if ($variant_host) {
       $url_scheme = "";
       if ($url_scheme = getenv('URL_SCHEME')) {
         $url_scheme .= ":";
