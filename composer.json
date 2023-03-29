@@ -2,7 +2,7 @@
   "name": "drunomics/behat-drupal-utils",
   "description": "Provides behat step definitinons, contexts and utilities for using Behat with Drupal.",
   "require": {
-    "drupal/drupal-extension": "^4.1"
+    "drupal/drupal-extension": "^4.1.0 || ^5.0.0"
 
   },
   "replace": {
@@ -30,4 +30,3 @@
     }
   }
 }
-
