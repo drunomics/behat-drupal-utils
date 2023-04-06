@@ -25,6 +25,7 @@ class DrupalCleanTestContentApiContext extends RawDrupalContext {
    */
   public static function cleanupContent() {
     $nids = \Drupal::entityQuery('node')
+      ->accessCheck(FALSE)
       ->condition('title', 'BEHAT:', 'STARTS_WITH')
       ->execute();
     if (!empty($nids)) {
@@ -39,6 +40,7 @@ class DrupalCleanTestContentApiContext extends RawDrupalContext {
     }
 
     $tids = \Drupal::entityQuery('taxonomy_term')
+      ->accessCheck(FALSE)
       ->condition('name', 'BEHAT:', 'STARTS_WITH')
       ->execute();
     if (!empty($tids)) {
